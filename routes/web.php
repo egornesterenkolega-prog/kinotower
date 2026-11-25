@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CountryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,5 +23,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/dashboard', function () {
             return view('admin.dashboard');
         })->name('admin.dashboard');
+
+        // CRUD стран и жанров (экшен show не используется)
+        Route::name('admin.')->group(function () {
+            Route::resource('countries', CountryController::class)->except(['show']);
+            Route::resource('categories', CategoryController::class)->except(['show']);
+        });
     });
 });
