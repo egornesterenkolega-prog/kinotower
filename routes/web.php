@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoryFilmController;
 use App\Http\Controllers\CountryController;
+use App\Http\Controllers\FilmController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,10 +26,15 @@ Route::prefix('admin')->group(function () {
             return view('admin.dashboard');
         })->name('admin.dashboard');
 
-        // CRUD стран и жанров (экшен show не используется)
+        // CRUD стран, жанров и фильмов (экшен show не используется)
         Route::name('admin.')->group(function () {
             Route::resource('countries', CountryController::class)->except(['show']);
             Route::resource('categories', CategoryController::class)->except(['show']);
+
+            // фильмы и их жанры
+            Route::resource('films', FilmController::class)->except(['show']);
+            Route::resource('films.categories', CategoryFilmController::class)
+                ->only(['index', 'create', 'store', 'destroy']);
         });
     });
 });
