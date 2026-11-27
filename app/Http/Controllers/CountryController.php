@@ -67,7 +67,7 @@ class CountryController extends Controller
         // фильмы ссылаются на страну (в том числе удалённые мягко)
         if ($country->films()->withTrashed()->exists()) {
             return redirect()->route('admin.countries.index')
-                ->withErrors(['country' => 'Нельзя удалить страну: к ней привязаны фильмы.']);
+                ->withErrors(['alert' => 'Нельзя удалить страну: к ней привязаны фильмы.']);
         }
 
         $country->delete();

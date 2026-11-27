@@ -5,6 +5,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryFilmController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\FilmController;
+use App\Http\Controllers\RatingFilmController;
+use App\Http\Controllers\ReviewFilmController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,6 +38,20 @@ Route::prefix('admin')->group(function () {
             Route::resource('films', FilmController::class)->except(['show']);
             Route::resource('films.categories', CategoryFilmController::class)
                 ->only(['index', 'create', 'store', 'destroy']);
+
+            // пользователи (удалённые можно просмотреть и восстановить)
+            Route::resource('users', UserController::class)->only(['index', 'destroy']);
+            Route::patch('users/{user}/restore', [UserController::class, 'restore'])
+                ->withTrashed()
+                ->name('users.restore');
+
+            // отзывы к фильмам
+            Route::resource('reviews', ReviewFilmController::class)->only(['index', 'destroy']);
+            Route::patch('reviews/{review}/approved', [ReviewFilmController::class, 'approved'])
+                ->name('reviews.approved');
+
+            // оценки фильмов
+            Route::resource('ratings', RatingFilmController::class)->only(['index', 'destroy']);
         });
     });
 });

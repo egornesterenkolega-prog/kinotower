@@ -51,9 +51,11 @@
                         <span class="muted">—</span>
                     @endforelse
                 </td>
-                <td class="actions">
+                <td class="actions" style="flex-wrap: wrap">
                     <a class="btn btn-gray" href="{{ route('admin.films.edit', $film) }}">Изменить</a>
                     <a class="btn btn-gray" href="{{ route('admin.films.categories.index', $film) }}">Жанры</a>
+                    <a class="btn btn-gray" href="{{ route('admin.reviews.index', ['film_id' => $film->id]) }}">Отзывы</a>
+                    <a class="btn btn-gray" href="{{ route('admin.ratings.index', ['film_id' => $film->id]) }}">Оценки</a>
                     <form method="POST" action="{{ route('admin.films.destroy', $film) }}"
                           onsubmit="return confirm('Удалить фильм «{{ $film->name }}»?')">
                         @csrf

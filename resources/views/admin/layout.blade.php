@@ -6,7 +6,7 @@
     <title>@yield('title', 'Админ-панель')</title>
     <style>
         body { font-family: system-ui, sans-serif; margin: 0; background: #f3f4f6; color: #111; }
-        nav { background: #1f2937; padding: 12px 24px; display: flex; gap: 20px; align-items: center; }
+        nav { background: #1f2937; padding: 12px 24px; display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
         nav a { color: #e5e7eb; text-decoration: none; }
         nav a:hover { color: #fff; }
         nav form { margin-left: auto; }
@@ -26,6 +26,11 @@
         input[type=text], select { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #ccc; border-radius: 4px; }
         .field { margin-bottom: 16px; }
         .muted { color: #6b7280; }
+        .tabs { display: flex; gap: 8px; margin: 16px 0; }
+        .tabs .active { background: #1f2937; }
+        .badge-ok { color: #166534; }
+        .badge-wait { color: #92400e; }
+        td.msg { max-width: 320px; white-space: pre-wrap; word-break: break-word; }
         .alert-error { background: #fee2e2; color: #991b1b; }
         .filters { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; margin: 16px 0; }
         .filters .field { margin: 0; min-width: 180px; }
@@ -43,6 +48,9 @@
     <a href="{{ route('admin.films.index') }}">Фильмы</a>
     <a href="{{ route('admin.countries.index') }}">Страны</a>
     <a href="{{ route('admin.categories.index') }}">Жанры</a>
+    <a href="{{ route('admin.users.index') }}">Пользователи</a>
+    <a href="{{ route('admin.reviews.index') }}">Отзывы</a>
+    <a href="{{ route('admin.ratings.index') }}">Оценки</a>
     <form method="POST" action="{{ route('logout') }}">
         @csrf
         <button type="submit">Выйти ({{ auth()->user()->email }})</button>
@@ -52,8 +60,8 @@
     @if (session('success'))
         <div class="alert">{{ session('success') }}</div>
     @endif
-    @if ($errors->has('country'))
-        <div class="alert alert-error">{{ $errors->first('country') }}</div>
+    @if ($errors->has('alert'))
+        <div class="alert alert-error">{{ $errors->first('alert') }}</div>
     @endif
     @yield('content')
 </main>
